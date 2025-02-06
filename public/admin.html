@@ -10,39 +10,68 @@
     <h2>Create Card</h2>
     <form id="createForm">
         <div>
-            <label for="username">Username</label>
-            <input id="username" name="username" type="text" autocomplete="username" required autofocus>
+            <label for="name">Name</label>
+            <input id="name" name="name" type="text" required >
         </div>
         <div>
-            <label for="current-password">Password</label>
-            <input id="current-password" name="password" type="password" autocomplete="current-password" required>
+            <label for="set">Set</label>
+            <input id="set" name="set" type="text" required>
         </div>
-        <button type="submit">Sign in</button>
+        <div>
+            <label for="cardNumber">Card Number in Set</label>
+            <input id="cardNumber" name="cardNumber" type="text" required>
+        </div>
+        <div>
+            <label for="type">Type</label>
+            <select id="type" name="type" type="text" required>
+                <option value="Creature">Creature</option>
+                <option value="Enchantment">Enchantment</option>
+                <option value="Spell">Spell</option>
+                <option value="Artifact">Artifact</option>
+            </select>
+        </div>
+        <div>
+            <label for="rarity">Rarity</label>
+            <select id="rarity" name="rarity" type="text" required>
+                <option value="Common">Common</option>
+                <option value="Uncommon">Uncommon</option>
+                <option value="Rare">Rare</option>
+                <option value="Epic">Epic</option>
+            </select>
+        </div>
+        <button type="submit">Save New Card</button>
     </form>
     <h2>Update Card</h2>
     <form id="updateForm">
         <div>
-            <label for="username">Username</label>
-            <input id="username" name="username" type="text" autocomplete="username" required autofocus>
+            <label for="updateId">Card Id</label>
+            <input id="updateId" name="updateId" type="number" required >
         </div>
         <div>
-            <label for="current-password">Password</label>
-            <input id="current-password" name="password" type="password" autocomplete="current-password" required>
+            <label for="categorySelect">Category to Edit</label>
+            <select id="categorySelect" name="categorySelect" required>
+                <option value="name">Name</option>
+                <option value="set">Set</option>
+                <option value="cardNumber">Card Number</option>
+                <option value="type">Type</option>
+                <option value="rarity">Rarity</option>
+                <option value="cost">Cost</option>
+            </select>
         </div>
-        <button type="submit">Sign in</button>
+        <div>
+            <label for="updateInput">Card Id</label>
+            <input id="updateInput" name="updateInput" type="text" required>
+        </div>
+        <button type="submit">Save Update</button>
     </form>
     <h2>Delete Card</h2>
     <form id="deleteForm">
         <div>
-            <label for="cardId">ID</label>
-            <input id="cardId" name="cardId" type="number" required autofocus>
+            <label for="deleteId">ID</label>
+            <input id="deleteId" name="deleteId" type="number" required >
         </div>
-        <div>
-            <label for="current-password">Password</label>
-            <input id="current-password" name="password" type="password" autocomplete="current-password" required>
-        </div>
-        <button type="submit">Sign in</button>
+        <button type="submit">Delete Card</button>
     </form>
-    <script src="script.js"></script>
+    <script src="admin.js"></script>
 </body>
 </html>
