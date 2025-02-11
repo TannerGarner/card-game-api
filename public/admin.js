@@ -79,9 +79,9 @@ document.getElementById("updateForm").addEventListener('submit', async (event) =
         return;
     }
 
-    const id = document.getElementById("updateId").value;
-    const category = updateForm.querySelector("select").value; 
-    const update = document.getElementById("updateInput").value;
+    const id = document.getElementById("updateId").value.trim();
+    const category = document.querySelector("#updateForm select").value; 
+    const update = document.getElementById("updateInput").value.trim();
 
 
     try {
@@ -91,18 +91,19 @@ document.getElementById("updateForm").addEventListener('submit', async (event) =
                 'Content-Type': 'application/json',
                 'Authorization': `Bearer ${token}`, 
             },
-            body: JSON.stringify({ category, value })
+            body: JSON.stringify({ category, update })
         });
 
+        const data = await response.json(); // Convert response to JSON
+
         if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.error || 'Failed to update card');
+            throw new Error(data.error || 'Failed to update card');
         }
 
-        alert(response.message);
+        alert(data.message);
         document.getElementById("updateId").value = "";
-        document.getElementById("updateId").querySelector("select").value = "";
-        document.getElementById("updateInput").value = ""
+        document.getElementById("updateForm").querySelector("select").value = "";
+        document.getElementById("updateInput").value = "";
     } catch (error) {
         console.error('Error:', error);
         alert('Failed to find card.');

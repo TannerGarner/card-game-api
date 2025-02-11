@@ -168,8 +168,49 @@ app.post("/cards/create", expressjwt({ secret: process.env.SECRET, algorithms: [
 });
 
 app.put("/cards/:id", expressjwt({ secret: process.env.SECRET, algorithms: ["HS256"] }),(req, res)=>{
-  const id = req.params.id
-  
+  const id = parseInt(req.params.id);
+
+  let { category, update } = req.body;
+
+  if (!category || !update) {
+    return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  fs.readFile(cardsPath, "utf8", (err, jsonString) => {
+    if (err) {
+      console.error("Error reading file:", err);
+      return res.status(500).json({ error: "Failed to read data file" });
+    }
+    try {
+      const jsonObject = JSON.parse(jsonString);
+      const cards = jsonObject.cards;
+
+      const cardIndex = cards.findIndex(card => card.id === id);
+      if (cardIndex === -1) {
+        return res.status(404).json({ error: "Card not found" });
+      }
+
+      if (category == "cardNumber" || category == "cost"){
+        update = parseInt(update);
+      }
+
+      // Update the requested field
+      cards[cardIndex][category] = update;
+
+      fs.writeFile(cardsPath, JSON.stringify(jsonObject, null, 2), (writeErr) => {
+          if (writeErr) {
+              console.error("Error writing file:", writeErr);
+              return res.status(500).json({ error: "Failed to save changes" });
+          }
+          res.json({ message: "Card updated successfully", updatedCard: cards[cardIndex] });
+      });
+
+      
+    } catch (parseErr) {
+      console.error("Error parsing JSON:", parseErr);
+      res.status(500).json({ error: "Invalid JSON format" });
+    }
+  })
 })
 
 app.delete("/cards/:id", expressjwt({ secret: process.env.SECRET, algorithms: ["HS256"] }),(req, res)=>{
