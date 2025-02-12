@@ -113,5 +113,38 @@ document.getElementById("updateForm").addEventListener('submit', async (event) =
 
 
 // Delete Card Form Elements
-const deleteForm = document.getElementById("deleteForm");
-const deleteIdInput = document.getElementById("deleteId");
+const deleteForm = document.getElementById("deleteForm").addEventListener('submit', async (event)=>{
+    event.preventDefault();
+
+    const deleteId = document.getElementById("deleteId").value;
+
+    const token = localStorage.getItem("token"); 
+    if (!token) {
+        alert("Session expired. Please log in again.");
+        window.location.href = "login.html";
+        return;
+    }
+
+    try {
+        const response = await fetch(`http://localhost:3000/cards/${deleteId}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`, 
+            },
+        });
+
+        const data = await response.json(); // Convert response to JSON
+
+        if (!response.ok) {
+            throw new Error(data.error || 'Failed to delete card');
+        }
+
+        alert(data.message);
+        document.getElementById("deleteId").value = "";
+    } catch (error) {
+        console.error('Error:', error);
+        alert('Failed to find card.');
+    }
+});
+
